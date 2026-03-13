@@ -1,41 +1,48 @@
-import React, { useState } from "react";
+
+import React, { useState, useRef, useEffect } from "react";
+import "./ChatBox.css";
 
 function ChatBox() {
-  const [question, setQuestion] = useState("");
-  const [response, setResponse] = useState("");
-  const [token, setToken] = useState(""); // JWT token if needed
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const bottomRef = useRef(null);
 
-  const handleAsk = async () => {
-    try {
-      const res = await fetch("https://tapkeai-backend.onrender.com/ask", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token
-        },
-        body: JSON.stringify({ question, user: "shreyash" })
-      });
+  const sendMessage = async () => {
+    if (!input) return;
 
-      const data = await res.json();
-      setResponse(data.response);
-    } catch (err) {
-      console.error("Error fetching response:", err);
-      setResponse("Error connecting to backend.");
-    }
+    const userMessage = { sender: "user", text: input };
+    setMessages([...messages, userMessage]);
+    setInput("");
+
+    // fake AI response for now
+    const aiMessage = { sender: "ai", text: "AI is thinking..." };
+    setTimeout(() => {
+      setMessages(prev => [...prev, aiMessage]);
+    }, 1000);
   };
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
-    <div className="chatbox">
-      <h2>Tapke AI Chat</h2>
-      <textarea
-        value={question}
-        onChange={(e) => setQuestion(e.target.value)}
-        placeholder="Ask something..."
-      />
-      <button onClick={handleAsk}>Ask</button>
-      <div className="response">
-        <strong>Response:</strong>
-        <p>{response}</p>
+    <div className="chat-container">
+      <div className="chat-messages">
+        {messages.map((msg, i) => (
+          <div key={i} className={msg.sender}>
+            {msg.text}
+          </div>
+        ))}
+        <div ref={bottomRef}></div>
+      </div>
+
+      <div className="chat-input">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type your message..."
+        />
+        <button onClick={sendMessage}>Send</button>
       </div>
     </div>
   );
