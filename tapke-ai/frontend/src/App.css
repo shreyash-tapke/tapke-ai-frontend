@@ -1,44 +1,18 @@
-body {
-  margin: 0;
-  background-color: #000;
-  color: #39ff14; /* neon green */
-  font-family: 'Courier New', monospace;
-}
 
+/* Full screen black background */
 .app-container {
+  background-color: #000; /* black */
+  color: #39ff14; /* neon green */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-}
-
-.app-header {
-  text-align: center;
-  padding: 20px;
-  border-bottom: 1px solid #39ff14;
-  box-shadow: 0 0 15px #39ff14;
-}
-
-.app-title {
-  font-size: 3rem;
-  text-shadow: 0 0 20px #39ff14, 0 0 40px #39ff14;
-}
-
-.app-author {
-  font-size: 1.2rem;
-  text-shadow: 0 0 10px #39ff14;
-}
-
-.app-main {
-  flex: 1;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  font-family: 'Courier New', Courier, monospace;
+  padding: 20px;
 }
 
-.app-footer {
-  text-align: center;
-  padding: 10px;
-  border-top: 1px solid #39ff14;
-  font-size: 0.9rem;
-  box-shadow: 0 0 10px #39ff14;
+h1 {
+  margin-bottom: 20px;
+  color: #39ff14;
+  text-shadow: 0 0 10px #39ff14;
 }
